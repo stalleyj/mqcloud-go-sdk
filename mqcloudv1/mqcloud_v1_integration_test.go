@@ -92,13 +92,15 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 				ApiKey: apikey,
 				URL:    "https://iam.test.cloud.ibm.com" + "/identity/token",
 			}
+			acceptLanguage := "en-US"
 			if err != nil {
 				panic(err)
 			}
 			mqcloudServiceOptions := &mqcloudv1.MqcloudV1Options{
-				URL:           os.Getenv("IBMCLOUD_MQCLOUD_CONFIG_ENDPOINT"),
-				Authenticator: authenticator,
-				ServiceName:   mqcloudv1.DefaultServiceName,
+				URL:            os.Getenv("IBMCLOUD_MQCLOUD_CONFIG_ENDPOINT"),
+				Authenticator:  authenticator,
+				ServiceName:    mqcloudv1.DefaultServiceName,
+				AcceptLanguage: core.StringPtr(acceptLanguage),
 			}
 
 			mqcloudService, err = mqcloudv1.NewMqcloudV1UsingExternalConfig(mqcloudServiceOptions)
@@ -152,7 +154,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 			createQueueManagerOptions := &mqcloudv1.CreateQueueManagerOptions{
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
 				Name:                core.StringPtr("int_test" + RandString(6)),
-				Location:            core.StringPtr("reserved-eu-de-cluster-f884"),
+				Location:            core.StringPtr("ibmcloud_eu_de"),
 				Size:                core.StringPtr("lite"),
 				DisplayName:         core.StringPtr("A test queue manager"),
 				Version:             core.StringPtr("9.3.3_3"),
@@ -172,7 +174,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		It(`ListQueueManagers(listQueueManagersOptions *ListQueueManagersOptions) with pagination`, func() {
 			listQueueManagersOptions := &mqcloudv1.ListQueueManagersOptions{
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
-				AcceptLanguage:      core.StringPtr("testString"),
 				Offset:              core.Int64Ptr(int64(0)),
 				Limit:               core.Int64Ptr(int64(10)),
 			}
@@ -200,7 +201,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		It(`ListQueueManagers(listQueueManagersOptions *ListQueueManagersOptions) using QueueManagersPager`, func() {
 			listQueueManagersOptions := &mqcloudv1.ListQueueManagersOptions{
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
-				AcceptLanguage:      core.StringPtr("testString"),
 				Limit:               core.Int64Ptr(int64(10)),
 			}
 
@@ -239,7 +239,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 			getQueueManagerOptions := &mqcloudv1.GetQueueManagerOptions{
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
 				QueueManagerID:      queue_manager_id,
-				AcceptLanguage:      core.StringPtr("testString"),
 			}
 
 			queueManagerDetails, response, err := mqcloudService.GetQueueManager(getQueueManagerOptions)
@@ -262,7 +261,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
 				QueueManagerID:      queue_manager_id,
 				Version:             core.StringPtr("9.3.4_1"),
-				AcceptLanguage:      core.StringPtr("testString"),
 			}
 
 			queueManagerTaskStatus, response, err := mqcloudService.SetQueueManagerVersion(setQueueManagerVersionOptions)
@@ -280,7 +278,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 			getQueueManagerAvailableUpgradeVersionsOptions := &mqcloudv1.GetQueueManagerAvailableUpgradeVersionsOptions{
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
 				QueueManagerID:      queue_manager_id,
-				AcceptLanguage:      core.StringPtr("testString"),
 			}
 
 			queueManagerVersionUpgrades, response, err := mqcloudService.GetQueueManagerAvailableUpgradeVersions(getQueueManagerAvailableUpgradeVersionsOptions)
@@ -298,7 +295,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 			getQueueManagerConnectionInfoOptions := &mqcloudv1.GetQueueManagerConnectionInfoOptions{
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
 				QueueManagerID:      queue_manager_id,
-				AcceptLanguage:      core.StringPtr("testString"),
 			}
 
 			connectionInfo, response, err := mqcloudService.GetQueueManagerConnectionInfo(getQueueManagerConnectionInfoOptions)
@@ -316,7 +312,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 			getQueueManagerStatusOptions := &mqcloudv1.GetQueueManagerStatusOptions{
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
 				QueueManagerID:      queue_manager_id,
-				AcceptLanguage:      core.StringPtr("testString"),
 			}
 
 			queueManagerStatus, response, err := mqcloudService.GetQueueManagerStatus(getQueueManagerStatusOptions)
@@ -335,7 +330,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
 				Email:               core.StringPtr("user" + RandString(6) + "@ibm.com"),
 				Name:                core.StringPtr("user" + RandString(6)),
-				AcceptLanguage:      core.StringPtr("testString"),
 			}
 
 			userDetails, response, err := mqcloudService.CreateUser(createUserOptions)
@@ -354,7 +348,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 			getUserOptions := &mqcloudv1.GetUserOptions{
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
 				UserID:              user_id,
-				AcceptLanguage:      core.StringPtr("testString"),
 			}
 
 			userDetails, response, err := mqcloudService.GetUser(getUserOptions)
@@ -370,7 +363,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		It(`ListUsers(listUsersOptions *ListUsersOptions) with pagination`, func() {
 			listUsersOptions := &mqcloudv1.ListUsersOptions{
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
-				AcceptLanguage:      core.StringPtr("testString"),
 				Offset:              core.Int64Ptr(int64(0)),
 				Limit:               core.Int64Ptr(int64(10)),
 			}
@@ -398,7 +390,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		It(`ListUsers(listUsersOptions *ListUsersOptions) using UsersPager`, func() {
 			listUsersOptions := &mqcloudv1.ListUsersOptions{
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
-				AcceptLanguage:      core.StringPtr("testString"),
 				Limit:               core.Int64Ptr(int64(10)),
 			}
 
@@ -437,7 +428,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 			createApplicationOptions := &mqcloudv1.CreateApplicationOptions{
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
 				Name:                core.StringPtr("app" + RandString(1)),
-				AcceptLanguage:      core.StringPtr("testString"),
 			}
 
 			applicationCreated, response, err := mqcloudService.CreateApplication(createApplicationOptions)
@@ -456,7 +446,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 			getApplicationOptions := &mqcloudv1.GetApplicationOptions{
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
 				ApplicationID:       application_id,
-				AcceptLanguage:      core.StringPtr("testString"),
 			}
 
 			applicationDetails, response, err := mqcloudService.GetApplication(getApplicationOptions)
@@ -473,7 +462,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		It(`ListApplications(listApplicationsOptions *ListApplicationsOptions) with pagination`, func() {
 			listApplicationsOptions := &mqcloudv1.ListApplicationsOptions{
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
-				AcceptLanguage:      core.StringPtr("testString"),
 				Offset:              core.Int64Ptr(int64(0)),
 				Limit:               core.Int64Ptr(int64(10)),
 			}
@@ -501,7 +489,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		It(`ListApplications(listApplicationsOptions *ListApplicationsOptions) using ApplicationsPager`, func() {
 			listApplicationsOptions := &mqcloudv1.ListApplicationsOptions{
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
-				AcceptLanguage:      core.StringPtr("testString"),
 				Limit:               core.Int64Ptr(int64(10)),
 			}
 
@@ -541,7 +528,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
 				ApplicationID:       application_id,
 				Name:                core.StringPtr("test-api-key"),
-				AcceptLanguage:      core.StringPtr("testString"),
 			}
 
 			applicationApiKeyCreated, response, err := mqcloudService.CreateApplicationApikey(createApplicationApikeyOptions)
@@ -569,7 +555,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 				QueueManagerID:      queue_manager_id,
 				Label:               core.StringPtr("testString101"),
 				CertificateFile:     file,
-				AcceptLanguage:      core.StringPtr("testString"),
 			}
 
 			trustStoreCertificateDetails, response, err := mqcloudService.CreateTrustStorePemCertificate(createTrustStorePemCertificateOptions)
@@ -588,7 +573,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 			listTrustStoreCertificatesOptions := &mqcloudv1.ListTrustStoreCertificatesOptions{
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
 				QueueManagerID:      queue_manager_id,
-				AcceptLanguage:      core.StringPtr("testString"),
 			}
 
 			trustStoreCertificateDetailsCollection, response, err := mqcloudService.ListTrustStoreCertificates(listTrustStoreCertificatesOptions)
@@ -607,7 +591,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
 				QueueManagerID:      queue_manager_id,
 				CertificateID:       truststore_certificate_id,
-				AcceptLanguage:      core.StringPtr("testString"),
 			}
 
 			trustStoreCertificateDetails, response, err := mqcloudService.GetTrustStoreCertificate(getTrustStoreCertificateOptions)
@@ -627,7 +610,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
 				QueueManagerID:      queue_manager_id,
 				CertificateID:       truststore_certificate_id,
-				AcceptLanguage:      core.StringPtr("testString"),
 			}
 
 			response, err := mqcloudService.DeleteTrustStoreCertificate(deleteTrustStoreCertificateOptions)
@@ -645,7 +627,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 	// 			ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
 	// 			QueueManagerID:      queue_manager_id,
 	// 			CertificateID:       truststore_certificate_id,
-	// 			AcceptLanguage:      core.StringPtr("testString"),
 	// 		}
 
 	// 		result, response, err := mqcloudService.DownloadTrustStoreCertificate(downloadTrustStoreCertificateOptions)
@@ -672,7 +653,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 				QueueManagerID:      queue_manager_id,
 				Label:               core.StringPtr("testString"),
 				CertificateFile:     file,
-				AcceptLanguage:      core.StringPtr("testString"),
 			}
 
 			keyStoreCertificateDetails, response, err := mqcloudService.CreateKeyStorePemCertificate(createKeyStorePemCertificateOptions)
@@ -691,7 +671,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 			listKeyStoreCertificatesOptions := &mqcloudv1.ListKeyStoreCertificatesOptions{
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
 				QueueManagerID:      queue_manager_id,
-				AcceptLanguage:      core.StringPtr("testString"),
 			}
 
 			keyStoreCertificateDetailsCollection, response, err := mqcloudService.ListKeyStoreCertificates(listKeyStoreCertificatesOptions)
@@ -710,7 +689,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
 				QueueManagerID:      queue_manager_id,
 				CertificateID:       keystore_certificate_id,
-				AcceptLanguage:      core.StringPtr("testString"),
 			}
 
 			keyStoreCertificateDetails, response, err := mqcloudService.GetKeyStoreCertificate(getKeyStoreCertificateOptions)
@@ -729,7 +707,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 	// 			ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
 	// 			QueueManagerID:      queue_manager_id,
 	// 			CertificateID:       keystore_certificate_id,
-	// 			AcceptLanguage:      core.StringPtr("testString"),
 	// 		}
 
 	// 		result, response, err := mqcloudService.DownloadKeyStoreCertificate(downloadKeyStoreCertificateOptions)
@@ -748,7 +725,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 	// 			QueueManagerID:      queue_manager_id,
 	// 			CertificateID:       keystore_certificate_id,
 	// 			ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
-	// 			AcceptLanguage:      core.StringPtr("testString"),
 	// 		}
 
 	// 		channelsDetails, response, err := mqcloudService.GetCertificateAmsChannels(getCertificateAmsChannelsOptions)
@@ -773,7 +749,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 	// 			ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
 	// 			Channels:            []mqcloudv1.ChannelDetails{*channelDetailsModel},
 	// 			UpdateStrategy:      core.StringPtr("replace"),
-	// 			AcceptLanguage:      core.StringPtr("testString"),
 	// 		}
 
 	// 		channelsDetails, response, err := mqcloudService.SetCertificateAmsChannels(setCertificateAmsChannelsOptions)
@@ -792,7 +767,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
 				QueueManagerID:      queue_manager_id,
 				CertificateID:       keystore_certificate_id,
-				AcceptLanguage:      core.StringPtr("testString"),
 			}
 
 			response, err := mqcloudService.DeleteKeyStoreCertificate(deleteKeyStoreCertificateOptions)
@@ -809,7 +783,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 			deleteUserOptions := &mqcloudv1.DeleteUserOptions{
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
 				UserID:              user_id,
-				AcceptLanguage:      core.StringPtr("testString"),
 			}
 
 			response, err := mqcloudService.DeleteUser(deleteUserOptions)
@@ -826,7 +799,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 			deleteApplicationOptions := &mqcloudv1.DeleteApplicationOptions{
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
 				ApplicationID:       application_id,
-				AcceptLanguage:      core.StringPtr("testString"),
 			}
 
 			response, err := mqcloudService.DeleteApplication(deleteApplicationOptions)
@@ -843,7 +815,6 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 			deleteQueueManagerOptions := &mqcloudv1.DeleteQueueManagerOptions{
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
 				QueueManagerID:      queue_manager_id,
-				AcceptLanguage:      core.StringPtr("testString"),
 			}
 
 			queueManagerTaskStatus, response, err := mqcloudService.DeleteQueueManager(deleteQueueManagerOptions)
