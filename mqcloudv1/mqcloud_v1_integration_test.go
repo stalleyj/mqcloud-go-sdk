@@ -157,7 +157,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 				Location:            core.StringPtr("ibmcloud_eu_de"),
 				Size:                core.StringPtr("lite"),
 				DisplayName:         core.StringPtr("A test queue manager"),
-				Version:             core.StringPtr("9.3.3_3"),
+				Version:             core.StringPtr("9.3.4_2"),
 			}
 
 			queueManagerTaskStatus, response, err := mqcloudService.CreateQueueManager(createQueueManagerOptions)
@@ -260,7 +260,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 			setQueueManagerVersionOptions := &mqcloudv1.SetQueueManagerVersionOptions{
 				ServiceInstanceGuid: core.StringPtr(serviceinstance_guid),
 				QueueManagerID:      queue_manager_id,
-				Version:             core.StringPtr("9.3.4_1"),
+				Version:             core.StringPtr("9.3.4_3"),
 			}
 
 			queueManagerTaskStatus, response, err := mqcloudService.SetQueueManagerVersion(setQueueManagerVersionOptions)
