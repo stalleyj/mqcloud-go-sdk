@@ -546,7 +546,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 			filePath := truststore_filepath // Replace with your file path
 			file, err := os.Open(filePath)
 			if err != nil {
-				fmt.Fprintf(GinkgoWriter, fmt.Errorf("Error opening file: %s", err))
+				fmt.Fprintf(GinkgoWriter, fmt.Errorf("Error opening file: %s", err.Error))
 				return
 			}
 			defer file.Close()
@@ -644,7 +644,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 			filePath := keystore_filepath // Replace with your file path
 			file, err := os.Open(filePath)
 			if err != nil {
-				fmt.Fprintf(GinkgoWriter, fmt.Errorf("Error opening file: %s", err))
+				fmt.Fprintf(GinkgoWriter, fmt.Errorf("Error opening file: %s", err.Error))
 				return
 			}
 			defer file.Close()
