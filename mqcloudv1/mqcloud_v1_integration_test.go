@@ -253,7 +253,11 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 			shouldSkipTest()
 		})
 		It(`SetQueueManagerVersion(setQueueManagerVersionOptions *SetQueueManagerVersionOptions)`, func() {
-			WaitForQmStatusUpdate(queue_manager_id, mqcloudService, serviceinstance_guid)
+		  error := WaitForQmStatusUpdate(queue_manager_id, mqcloudService, serviceinstance_guid)
+			if error != nil {
+				fmt.Fprintf(GinkgoWriter, "WaitForQmStatusUpdate failed: %s \n", error)
+				return
+			}
 			fmt.Fprintf(GinkgoWriter,
 				"--------- Queue Manager is now in the running state ---------",
 			)
@@ -542,7 +546,11 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 			shouldSkipTest()
 		})
 		It(`CreateTrustStorePemCertificate(createTrustStorePemCertificateOptions *CreateTrustStorePemCertificateOptions)`, func() {
-			WaitForQmStatusUpdate(queue_manager_id, mqcloudService, serviceinstance_guid)
+			error := WaitForQmStatusUpdate(queue_manager_id, mqcloudService, serviceinstance_guid)
+			if error != nil {
+				fmt.Fprintf(GinkgoWriter, "WaitForQmStatusUpdate failed: %s \n", error)
+				return
+			}
 			filePath := truststore_filepath // Replace with your file path
 			file, err := os.Open(filePath)
 			if err != nil {
