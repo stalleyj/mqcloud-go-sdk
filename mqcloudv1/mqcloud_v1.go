@@ -1744,7 +1744,7 @@ func (mqcloud *MqcloudV1) DownloadTrustStoreCertificateWithContext(ctx context.C
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
-	// builder.AddHeader("Accept", "application/octet-stream")
+	builder.AddHeader("Accept", "application/octet-stream")
 	if mqcloud.AcceptLanguage != nil {
 		builder.AddHeader("Accept-Language", fmt.Sprint(*mqcloud.AcceptLanguage))
 	}
