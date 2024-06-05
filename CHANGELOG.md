@@ -1,3 +1,10 @@
+# [0.1.0](https://github.com/IBM/mqcloud-go-sdk/compare/v0.0.4...v0.1.0) (2024-06-05)
+
+
+### Features
+
+* **keystore certificate:** add ams configuration ([af6bfcd](https://github.com/IBM/mqcloud-go-sdk/commit/af6bfcd94478faf8f71b1c448d4a5523db55bc39))
+
 ## [0.0.4](https://github.com/IBM/mqcloud-go-sdk/compare/v0.0.3...v0.0.4) (2023-12-20)
 
 
