@@ -45,7 +45,8 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		err            error
 		mqcloudService *mqcloudv1.MqcloudV1
 		serviceURL     string
-		config         map[string]string
+		//	queueManagerID string
+		config map[string]string
 	)
 
 	var shouldSkipTest = func() {
@@ -97,7 +98,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`GetUsageDetails(getUsageDetailsOptions *GetUsageDetailsOptions)`, func() {
 			getUsageDetailsOptions := &mqcloudv1.GetUsageDetailsOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 			}
 
 			usage, response, err := mqcloudService.GetUsageDetails(getUsageDetailsOptions)
@@ -113,7 +114,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`GetOptions(getOptionsOptions *GetOptionsOptions)`, func() {
 			getOptionsOptions := &mqcloudv1.GetOptionsOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 			}
 
 			configurationOptions, response, err := mqcloudService.GetOptions(getOptionsOptions)
@@ -130,7 +131,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`CreateQueueManager(createQueueManagerOptions *CreateQueueManagerOptions)`, func() {
 			createQueueManagerOptions := &mqcloudv1.CreateQueueManagerOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				Name:                core.StringPtr("testqm"),
 				Location:            core.StringPtr(config["LOCATION"]),
 				Size:                core.StringPtr("xsmall"),
@@ -152,7 +153,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`ListQueueManagers(listQueueManagersOptions *ListQueueManagersOptions) with pagination`, func() {
 			listQueueManagersOptions := &mqcloudv1.ListQueueManagersOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				Offset:              core.Int64Ptr(int64(0)),
 				Limit:               core.Int64Ptr(int64(10)),
 			}
@@ -179,7 +180,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`ListQueueManagers(listQueueManagersOptions *ListQueueManagersOptions) using QueueManagersPager`, func() {
 			listQueueManagersOptions := &mqcloudv1.ListQueueManagersOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				Limit:               core.Int64Ptr(int64(10)),
 			}
 
@@ -216,7 +217,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`GetQueueManager(getQueueManagerOptions *GetQueueManagerOptions)`, func() {
 			getQueueManagerOptions := &mqcloudv1.GetQueueManagerOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				QueueManagerID:      core.StringPtr(config["QUEUE_MANAGER_ID"]),
 			}
 
@@ -230,11 +231,11 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 	Describe(`SetQueueManagerVersion - Upgrade a queue manager`, func() {
 		BeforeEach(func() {
 			shouldSkipTest()
-			SkipTestIfQmIsNotRunning(config["QUEUE_MANAGER_ID"], mqcloudService, config["SERVICE_INSTANCE_GUID"])
+			SkipTestIfQmIsNotRunning(config["QUEUE_MANAGER_ID"], mqcloudService, config["SERVICE_INSTANCE_DEPLOYMENT_GUID"])
 		})
 		It(`SetQueueManagerVersion(setQueueManagerVersionOptions *SetQueueManagerVersionOptions)`, func() {
 			setQueueManagerVersionOptions := &mqcloudv1.SetQueueManagerVersionOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				QueueManagerID:      core.StringPtr(config["QUEUE_MANAGER_ID"]),
 				Version:             core.StringPtr(config["VERSION_UPGRADE"]),
 			}
@@ -252,7 +253,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`GetQueueManagerAvailableUpgradeVersions(getQueueManagerAvailableUpgradeVersionsOptions *GetQueueManagerAvailableUpgradeVersionsOptions)`, func() {
 			getQueueManagerAvailableUpgradeVersionsOptions := &mqcloudv1.GetQueueManagerAvailableUpgradeVersionsOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				QueueManagerID:      core.StringPtr(config["QUEUE_MANAGER_ID"]),
 			}
 
@@ -269,7 +270,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`GetQueueManagerConnectionInfo(getQueueManagerConnectionInfoOptions *GetQueueManagerConnectionInfoOptions)`, func() {
 			getQueueManagerConnectionInfoOptions := &mqcloudv1.GetQueueManagerConnectionInfoOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				QueueManagerID:      core.StringPtr(config["QUEUE_MANAGER_ID"]),
 			}
 
@@ -286,7 +287,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`GetQueueManagerStatus(getQueueManagerStatusOptions *GetQueueManagerStatusOptions)`, func() {
 			getQueueManagerStatusOptions := &mqcloudv1.GetQueueManagerStatusOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				QueueManagerID:      core.StringPtr(config["QUEUE_MANAGER_ID"]),
 			}
 
@@ -303,7 +304,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`ListUsers(listUsersOptions *ListUsersOptions) with pagination`, func() {
 			listUsersOptions := &mqcloudv1.ListUsersOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				Offset:              core.Int64Ptr(int64(0)),
 				Limit:               core.Int64Ptr(int64(10)),
 			}
@@ -330,7 +331,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`ListUsers(listUsersOptions *ListUsersOptions) using UsersPager`, func() {
 			listUsersOptions := &mqcloudv1.ListUsersOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				Limit:               core.Int64Ptr(int64(10)),
 			}
 
@@ -367,7 +368,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`CreateUser(createUserOptions *CreateUserOptions)`, func() {
 			createUserOptions := &mqcloudv1.CreateUserOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				Email:               core.StringPtr("testuser@ibm.com"),
 				Name:                core.StringPtr("testuser"),
 			}
@@ -386,7 +387,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`GetUser(getUserOptions *GetUserOptions)`, func() {
 			getUserOptions := &mqcloudv1.GetUserOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				UserID:              core.StringPtr(config["USER_ID"]),
 			}
 
@@ -403,7 +404,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`ListApplications(listApplicationsOptions *ListApplicationsOptions) with pagination`, func() {
 			listApplicationsOptions := &mqcloudv1.ListApplicationsOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				Offset:              core.Int64Ptr(int64(0)),
 				Limit:               core.Int64Ptr(int64(10)),
 			}
@@ -430,7 +431,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`ListApplications(listApplicationsOptions *ListApplicationsOptions) using ApplicationsPager`, func() {
 			listApplicationsOptions := &mqcloudv1.ListApplicationsOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				Limit:               core.Int64Ptr(int64(10)),
 			}
 
@@ -467,7 +468,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`CreateApplication(createApplicationOptions *CreateApplicationOptions)`, func() {
 			createApplicationOptions := &mqcloudv1.CreateApplicationOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				Name:                core.StringPtr("test-app"),
 			}
 
@@ -485,7 +486,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`GetApplication(getApplicationOptions *GetApplicationOptions)`, func() {
 			getApplicationOptions := &mqcloudv1.GetApplicationOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				ApplicationID:       core.StringPtr(config["APPLICATION_ID"]),
 			}
 
@@ -502,7 +503,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`CreateApplicationApikey(createApplicationApikeyOptions *CreateApplicationApikeyOptions)`, func() {
 			createApplicationApikeyOptions := &mqcloudv1.CreateApplicationApikeyOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				ApplicationID:       core.StringPtr(config["APPLICATION_ID"]),
 				Name:                core.StringPtr("test-api-key"),
 			}
@@ -517,7 +518,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 	Describe(`CreateTrustStorePemCertificate - Upload a trust store certificate`, func() {
 		BeforeEach(func() {
 			shouldSkipTest()
-			SkipTestIfQmIsNotRunning(config["QUEUE_MANAGER_ID"], mqcloudService, config["SERVICE_INSTANCE_GUID"])
+			SkipTestIfQmIsNotRunning(config["QUEUE_MANAGER_ID"], mqcloudService, config["SERVICE_INSTANCE_DEPLOYMENT_GUID"])
 
 		})
 		It(`CreateTrustStorePemCertificate(createTrustStorePemCertificateOptions *CreateTrustStorePemCertificateOptions)`, func() {
@@ -528,7 +529,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 			}
 			defer file.Close()
 			createTrustStorePemCertificateOptions := &mqcloudv1.CreateTrustStorePemCertificateOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				QueueManagerID:      core.StringPtr(config["QUEUE_MANAGER_ID"]),
 				Label:               core.StringPtr("truststore"),
 				CertificateFile:     file,
@@ -548,7 +549,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`ListTrustStoreCertificates(listTrustStoreCertificatesOptions *ListTrustStoreCertificatesOptions)`, func() {
 			listTrustStoreCertificatesOptions := &mqcloudv1.ListTrustStoreCertificatesOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				QueueManagerID:      core.StringPtr(config["QUEUE_MANAGER_ID"]),
 			}
 
@@ -565,7 +566,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`GetTrustStoreCertificate(getTrustStoreCertificateOptions *GetTrustStoreCertificateOptions)`, func() {
 			getTrustStoreCertificateOptions := &mqcloudv1.GetTrustStoreCertificateOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				QueueManagerID:      core.StringPtr(config["QUEUE_MANAGER_ID"]),
 				CertificateID:       core.StringPtr(config["TRUST_STORE_CERTIFICATE_ID"]),
 			}
@@ -583,7 +584,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`DownloadTrustStoreCertificate(downloadTrustStoreCertificateOptions *DownloadTrustStoreCertificateOptions)`, func() {
 			downloadTrustStoreCertificateOptions := &mqcloudv1.DownloadTrustStoreCertificateOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				QueueManagerID:      core.StringPtr(config["QUEUE_MANAGER_ID"]),
 				CertificateID:       core.StringPtr(config["TRUST_STORE_CERTIFICATE_ID"]),
 			}
@@ -598,7 +599,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 	Describe(`CreateKeyStorePemCertificate - Upload a key store certificate`, func() {
 		BeforeEach(func() {
 			shouldSkipTest()
-			SkipTestIfQmIsNotRunning(config["QUEUE_MANAGER_ID"], mqcloudService, config["SERVICE_INSTANCE_GUID"])
+			SkipTestIfQmIsNotRunning(config["QUEUE_MANAGER_ID"], mqcloudService, config["SERVICE_INSTANCE_DEPLOYMENT_GUID"])
 		})
 		It(`CreateKeyStorePemCertificate(createKeyStorePemCertificateOptions *CreateKeyStorePemCertificateOptions)`, func() {
 			file, err := os.Open(config["KEY_STORE_FILE_PATH"])
@@ -608,7 +609,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 			}
 			defer file.Close()
 			createKeyStorePemCertificateOptions := &mqcloudv1.CreateKeyStorePemCertificateOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				QueueManagerID:      core.StringPtr(config["QUEUE_MANAGER_ID"]),
 				Label:               core.StringPtr("keystore"),
 				CertificateFile:     file,
@@ -628,7 +629,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`ListKeyStoreCertificates(listKeyStoreCertificatesOptions *ListKeyStoreCertificatesOptions)`, func() {
 			listKeyStoreCertificatesOptions := &mqcloudv1.ListKeyStoreCertificatesOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				QueueManagerID:      core.StringPtr(config["QUEUE_MANAGER_ID"]),
 			}
 
@@ -645,7 +646,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`GetKeyStoreCertificate(getKeyStoreCertificateOptions *GetKeyStoreCertificateOptions)`, func() {
 			getKeyStoreCertificateOptions := &mqcloudv1.GetKeyStoreCertificateOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				QueueManagerID:      core.StringPtr(config["QUEUE_MANAGER_ID"]),
 				CertificateID:       core.StringPtr(config["KEY_STORE_CERTIFICATE_ID"]),
 			}
@@ -663,7 +664,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`DownloadKeyStoreCertificate(downloadKeyStoreCertificateOptions *DownloadKeyStoreCertificateOptions)`, func() {
 			downloadKeyStoreCertificateOptions := &mqcloudv1.DownloadKeyStoreCertificateOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				QueueManagerID:      core.StringPtr(config["QUEUE_MANAGER_ID"]),
 				CertificateID:       core.StringPtr(config["KEY_STORE_CERTIFICATE_ID"]),
 			}
@@ -683,7 +684,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 			getCertificateAmsChannelsOptions := &mqcloudv1.GetCertificateAmsChannelsOptions{
 				QueueManagerID:      core.StringPtr(config["QUEUE_MANAGER_ID"]),
 				CertificateID:       core.StringPtr(config["KEY_STORE_CERTIFICATE_ID"]),
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 			}
 
 			channelsDetails, response, err := mqcloudService.GetCertificateAmsChannels(getCertificateAmsChannelsOptions)
@@ -705,7 +706,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 			setCertificateAmsChannelsOptions := &mqcloudv1.SetCertificateAmsChannelsOptions{
 				QueueManagerID:      core.StringPtr(config["QUEUE_MANAGER_ID"]),
 				CertificateID:       core.StringPtr(config["KEY_STORE_CERTIFICATE_ID"]),
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				Channels:            []mqcloudv1.ChannelDetails{*channelDetailsModel},
 				UpdateStrategy:      core.StringPtr("append"),
 			}
@@ -725,13 +726,127 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 	})
 
+	Describe(`CreateVirtualPrivateEndpointGateway - Create a new virtual private endpoint gateway`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`CreateVirtualPrivateEndpointGateway(createVirtualPrivateEndpointGatewayOptions *CreateVirtualPrivateEndpointGatewayOptions)`, func() {
+			createVirtualPrivateEndpointGatewayOptions := &mqcloudv1.CreateVirtualPrivateEndpointGatewayOptions{
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_CAPACITY_GUID"]),
+				Name:                core.StringPtr("testvpeg"),
+				TargetCrn:           core.StringPtr(config["TARGET_CRN"]),
+				TrustedProfile:      core.StringPtr(config["TRUSTED_PROFILE"]),
+			}
+
+			createVirtualPrivateEndpointGatewayOptions.TrustedProfile = nil
+			virtualPrivateEndpointGatewayDetails, response, err := mqcloudService.CreateVirtualPrivateEndpointGateway(createVirtualPrivateEndpointGatewayOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(201))
+
+			Expect(virtualPrivateEndpointGatewayDetails).ToNot(BeNil())
+			gatewayid := *virtualPrivateEndpointGatewayDetails.ID
+			config["VIRTUAL_PRIVATE_ENDPOINT_GATEWAY_GUID"] = *virtualPrivateEndpointGatewayDetails.ID
+			Expect(gatewayid).To(Equal(config["VIRTUAL_PRIVATE_ENDPOINT_GATEWAY_GUID"]))
+		})
+	})
+
+	Describe(`ListVirtualPrivateEndpointGateways - Get a list of information for all virtual private endpoint gateways`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`ListVirtualPrivateEndpointGateways(listVirtualPrivateEndpointGatewaysOptions *ListVirtualPrivateEndpointGatewaysOptions) with pagination`, func() {
+			listVirtualPrivateEndpointGatewaysOptions := &mqcloudv1.ListVirtualPrivateEndpointGatewaysOptions{
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_CAPACITY_GUID"]),
+				TrustedProfile:      core.StringPtr(config["TRUSTED_PROFILE"]),
+				Start:               core.StringPtr(""),
+				Limit:               core.Int64Ptr(int64(10)),
+			}
+
+			listVirtualPrivateEndpointGatewaysOptions.TrustedProfile = nil
+			listVirtualPrivateEndpointGatewaysOptions.Start = nil
+			listVirtualPrivateEndpointGatewaysOptions.Limit = core.Int64Ptr(1)
+
+			var allResults []mqcloudv1.VirtualPrivateEndpointGatewayDetails
+			for {
+
+				virtualPrivateEndpointGatewayDetailsCollection, response, err := mqcloudService.ListVirtualPrivateEndpointGateways(listVirtualPrivateEndpointGatewaysOptions)
+
+				Expect(err).To(BeNil())
+				Expect(response.StatusCode).To(Equal(200))
+				Expect(virtualPrivateEndpointGatewayDetailsCollection).ToNot(BeNil())
+				allResults = append(allResults, virtualPrivateEndpointGatewayDetailsCollection.VirtualPrivateEndpointGateways...)
+
+				listVirtualPrivateEndpointGatewaysOptions.Start, err = virtualPrivateEndpointGatewayDetailsCollection.GetNextStart()
+				Expect(err).To(BeNil())
+				if listVirtualPrivateEndpointGatewaysOptions.Start == nil {
+
+					break
+				}
+				fmt.Println("START=" + *listVirtualPrivateEndpointGatewaysOptions.Start)
+			}
+			fmt.Fprintf(GinkgoWriter, "Retrieved a total of %d item(s) with pagination.\n", len(allResults))
+		})
+		It(`ListVirtualPrivateEndpointGateways(listVirtualPrivateEndpointGatewaysOptions *ListVirtualPrivateEndpointGatewaysOptions) using VirtualPrivateEndpointGatewaysPager`, func() {
+			listVirtualPrivateEndpointGatewaysOptions := &mqcloudv1.ListVirtualPrivateEndpointGatewaysOptions{
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_CAPACITY_GUID"]),
+				TrustedProfile:      core.StringPtr(config["TRUSTED_PROFILE"]),
+				Limit:               core.Int64Ptr(int64(10)),
+			}
+
+			// Test GetNext().
+			listVirtualPrivateEndpointGatewaysOptions.TrustedProfile = nil
+			pager, err := mqcloudService.NewVirtualPrivateEndpointGatewaysPager(listVirtualPrivateEndpointGatewaysOptions)
+			Expect(err).To(BeNil())
+			Expect(pager).ToNot(BeNil())
+
+			var allResults []mqcloudv1.VirtualPrivateEndpointGatewayDetails
+			for pager.HasNext() {
+				nextPage, err := pager.GetNext()
+				Expect(err).To(BeNil())
+				Expect(nextPage).ToNot(BeNil())
+				allResults = append(allResults, nextPage...)
+			}
+
+			// Test GetAll().
+			pager, err = mqcloudService.NewVirtualPrivateEndpointGatewaysPager(listVirtualPrivateEndpointGatewaysOptions)
+			Expect(err).To(BeNil())
+			Expect(pager).ToNot(BeNil())
+
+			allItems, err := pager.GetAll()
+			Expect(err).To(BeNil())
+			//		Expect(allItems).ToNot(BeNil())
+
+			Expect(len(allItems)).To(Equal(len(allResults)))
+			fmt.Fprintf(GinkgoWriter, "ListVirtualPrivateEndpointGateways() returned a total of %d item(s) using VirtualPrivateEndpointGatewaysPager.\n", len(allResults))
+		})
+	})
+
+	Describe(`GetVirtualPrivateEndpointGateway - Display the information for a specific virtual private endpoint gateway`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`GetVirtualPrivateEndpointGateway(getVirtualPrivateEndpointGatewayOptions *GetVirtualPrivateEndpointGatewayOptions)`, func() {
+			getVirtualPrivateEndpointGatewayOptions := &mqcloudv1.GetVirtualPrivateEndpointGatewayOptions{
+				ServiceInstanceGuid:               core.StringPtr(config["SERVICE_INSTANCE_CAPACITY_GUID"]),
+				VirtualPrivateEndpointGatewayGuid: core.StringPtr(config["VIRTUAL_PRIVATE_ENDPOINT_GATEWAY_GUID"]),
+				TrustedProfile:                    core.StringPtr(config["TRUSTED_PROFILE"]),
+			}
+
+			getVirtualPrivateEndpointGatewayOptions.TrustedProfile = nil
+			virtualPrivateEndpointGatewayDetails, response, err := mqcloudService.GetVirtualPrivateEndpointGateway(getVirtualPrivateEndpointGatewayOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(200))
+			Expect(virtualPrivateEndpointGatewayDetails).ToNot(BeNil())
+		})
+	})
+
 	Describe(`DeleteUser - Delete a user for an instance`, func() {
 		BeforeEach(func() {
 			shouldSkipTest()
 		})
 		It(`DeleteUser(deleteUserOptions *DeleteUserOptions)`, func() {
 			deleteUserOptions := &mqcloudv1.DeleteUserOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				UserID:              core.StringPtr(config["USER_ID"]),
 			}
 
@@ -747,7 +862,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`DeleteApplication(deleteApplicationOptions *DeleteApplicationOptions)`, func() {
 			deleteApplicationOptions := &mqcloudv1.DeleteApplicationOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				ApplicationID:       core.StringPtr(config["APPLICATION_ID"]),
 			}
 
@@ -763,7 +878,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`DeleteTrustStoreCertificate(deleteTrustStoreCertificateOptions *DeleteTrustStoreCertificateOptions)`, func() {
 			deleteTrustStoreCertificateOptions := &mqcloudv1.DeleteTrustStoreCertificateOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				QueueManagerID:      core.StringPtr(config["QUEUE_MANAGER_ID"]),
 				CertificateID:       core.StringPtr(config["TRUST_STORE_CERTIFICATE_ID"]),
 			}
@@ -780,7 +895,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`DeleteKeyStoreCertificate(deleteKeyStoreCertificateOptions *DeleteKeyStoreCertificateOptions)`, func() {
 			deleteKeyStoreCertificateOptions := &mqcloudv1.DeleteKeyStoreCertificateOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				QueueManagerID:      core.StringPtr(config["QUEUE_MANAGER_ID"]),
 				CertificateID:       core.StringPtr(config["KEY_STORE_CERTIFICATE_ID"]),
 			}
@@ -797,7 +912,7 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 		})
 		It(`DeleteQueueManager(deleteQueueManagerOptions *DeleteQueueManagerOptions)`, func() {
 			deleteQueueManagerOptions := &mqcloudv1.DeleteQueueManagerOptions{
-				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_GUID"]),
+				ServiceInstanceGuid: core.StringPtr(config["SERVICE_INSTANCE_DEPLOYMENT_GUID"]),
 				QueueManagerID:      core.StringPtr(config["QUEUE_MANAGER_ID"]),
 			}
 
@@ -805,6 +920,23 @@ var _ = Describe(`MqcloudV1 Integration Tests`, func() {
 			Expect(err).To(BeNil())
 			Expect(response.StatusCode).To(Equal(202))
 			Expect(queueManagerTaskStatus).ToNot(BeNil())
+		})
+	})
+
+	Describe(`DeleteVirtualPrivateEndpointGateway - Delete a specific virtual private endpoint gateway`, func() {
+		BeforeEach(func() {
+			shouldSkipTest()
+		})
+		It(`DeleteVirtualPrivateEndpointGateway(deleteVirtualPrivateEndpointGatewayOptions *DeleteVirtualPrivateEndpointGatewayOptions)`, func() {
+			deleteVirtualPrivateEndpointGatewayOptions := &mqcloudv1.DeleteVirtualPrivateEndpointGatewayOptions{
+				ServiceInstanceGuid:               core.StringPtr(config["SERVICE_INSTANCE_CAPACITY_GUID"]),
+				VirtualPrivateEndpointGatewayGuid: core.StringPtr(config["VIRTUAL_PRIVATE_ENDPOINT_GATEWAY_GUID"]),
+				TrustedProfile:                    core.StringPtr("crn:v1:staging:public:mq-eude-stackname:eu-de:::endpoint:qm1.private.stackname.mq2.test.appdomain.cloud"),
+			}
+			deleteVirtualPrivateEndpointGatewayOptions.TrustedProfile = nil
+			response, err := mqcloudService.DeleteVirtualPrivateEndpointGateway(deleteVirtualPrivateEndpointGatewayOptions)
+			Expect(err).To(BeNil())
+			Expect(response.StatusCode).To(Equal(204))
 		})
 	})
 })
